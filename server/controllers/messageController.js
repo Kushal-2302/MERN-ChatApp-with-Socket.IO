@@ -4,7 +4,6 @@ import cloudinary from "../lib/cloudinary.js";
 import { io, userSocketMap } from "../server.js";
 
 
-
 // Get all users except the logged in user
 export const getUserForSidebar = async (req , res) => {
     try {

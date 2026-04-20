@@ -1,7 +1,7 @@
 import { generateToken } from "../lib/utils.js";
-import User from "../models/User";
+import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-import cloudinary from "../lib/cloudinary";
+import cloudinary from "../lib/cloudinary.js";
 
 // Signup a new user
 export const signup = async (req , res) => {
@@ -9,9 +9,10 @@ export const signup = async (req , res) => {
 
     try {
         if(!fullName || !email || !password || !bio){
-            return res.json({succedd: false, message: "Missing Details"})
+            return res.json({success: false, message: "Missing Details"})
         }
         const user = await User.findOne({email});
+
 
         if(user){
             return res.json({success: false, message: "Account already exists"})
@@ -37,7 +38,7 @@ export const signup = async (req , res) => {
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const userData = await User.find({email})
+        const userData = await User.findOne({email})
 
         const isPasswordCorrect = await bcrypt.compare(password, userData.password);
 
@@ -47,7 +48,7 @@ export const login = async (req, res) => {
 
         const token = generateToken(userData._id)
 
-        res.json({success: true, userData, token, messgae: "Login Successful"})
+        res.json({success: true, userData, token, message: "Login Successful"})
     } catch (error) {
         console.log(error.message);
         res.json({success: false, message: error.message})
