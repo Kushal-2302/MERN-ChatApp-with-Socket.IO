@@ -31,6 +31,12 @@ export const ChatProvider = ({ children }) => {
       const { data } = await axios.get(`/api/messages/${userId}`);
       if (data.success) {
         setMessages(data.messages);
+
+         //  RESET unseen count
+            setUnseenMessages((prev) => ({
+                ...prev,
+                [userId]: 0
+            }));
       }
     } catch (error) {
       toast.error(error.message);
@@ -59,7 +65,11 @@ export const ChatProvider = ({ children }) => {
     if (!socket) return;
 
     socket.on("newMessage", (newMessage) => {
-      if (selectedUser && newMessage.senderId === selectedUser._id) {
+      if (
+    selectedUser &&
+    (newMessage.senderId === selectedUser._id ||
+     newMessage.receiverId === selectedUser._id)
+    ) {
         newMessage.seen = true;
         setMessages((prevMessages) => [...prevMessages, newMessage]);
         axios.put(`/api/messages/mark/${newMessage._id}`.catch(()=>{}));
