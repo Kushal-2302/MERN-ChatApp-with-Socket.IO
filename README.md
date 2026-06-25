@@ -32,7 +32,7 @@ https://github.com/Kushal-2302/MERN-ChatApp-with-Socket.IO
 ## ⚙️ Installation
 
 ```bash
-git clone https://github.com/your-username/quickchat.git
+git clone https://github.com/Kushal-2302/MERN-ChatApp-with-Socket.IO.git
 cd quickchat
 npm install
 ```
